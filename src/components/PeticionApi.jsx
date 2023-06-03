@@ -12,7 +12,7 @@ export const PeticionApi = () => {
             const response = await fetch(`https://big-bang-theory-api.lesalvucci.workers.dev/all?page=${pageNumber}`);
             if (response.ok) {
                 const jsonData = await response.json();
-                setData(jsonData.items);
+                setData(jsonData);
             } else {
                 setError('Error al obtener los datos');
             }
@@ -28,11 +28,11 @@ export const PeticionApi = () => {
     }, [pageNumber]);
 
     const handlePreviousPageClick = () => {
-        setPageNumber(pageNumber - 1);
+        if (pageNumber > 1) setPageNumber(pageNumber - 1);
     }
 
     const handleNextPageClick = () => {
-        setPageNumber(pageNumber + 1);
+        if (pageNumber < data.pages) setPageNumber(pageNumber + 1);
     }
 
     if (loading) return <p>Loading data...</p>
@@ -48,7 +48,7 @@ export const PeticionApi = () => {
                 <button onClick={handleNextPageClick}>Next page</button>
             <div className="card">
                 <ul style={{listStyleType: 'none'}}>
-                    {data.map(({id, name, photo}) => (
+                    {data.items.map(({id, name, photo}) => (
                         <li key={id}>
                             <h4>{name}</h4>
                             <img height="250px" src={photo} alt={`${id}pic`} />
