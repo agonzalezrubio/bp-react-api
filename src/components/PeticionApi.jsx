@@ -10,10 +10,7 @@ export const PeticionApi = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://futdb.app/api/clubs?page=${pageNumber}`, { 
-                    method: 'GET', 
-                    headers: { 'X-Auth-Token': 'a57318c0-467b-4c2e-b761-24d8b1347ddb' }
-                });
+                const response = await fetch(`https://big-bang-theory-api.lesalvucci.workers.dev/all?page=${pageNumber}`);
                 if (response.ok) {
                     const jsonData = await response.json();
                     setData(jsonData.items);
