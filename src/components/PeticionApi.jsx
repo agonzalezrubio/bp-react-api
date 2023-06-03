@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import '../App.css'
+import { CharacterCard } from './CharacterCard';
 
 export const PeticionApi = () => {
     const [data, setData] = useState(null);
@@ -40,20 +41,20 @@ export const PeticionApi = () => {
 
     return (
         <>
-            <h1>Peticion API React</h1>
+            <h1 style={{marginBottom: '0.2em'}}>Peticion API React</h1>
             <p className="read-the-docs">
                 Click the button to fetch the endpoint data
             </p>
+            
+            <div style={{marginTop: '1em'}}>
                 <button onClick={handlePreviousPageClick} style={{marginRight: '1em'}}>Previous page</button>
                 <button onClick={handleNextPageClick}>Next page</button>
-            <div className="card">
+            </div>
+
+            <div style={{marginTop: '2em'}} className="card">
                 <ul style={{listStyleType: 'none'}}>
-                    {data.items.map(({id, name, charName, photo}) => (
-                        <li key={id}>
-                            <h4>{name}</h4>
-                            <p>Character name: {charName}</p>
-                            <img height="250px" src={photo} alt={`${id}pic`} />
-                        </li>
+                    {data.items.map((item) => (
+                        <CharacterCard key={item.id} {...item}/>
                     ))}
                 </ul>
             </div>
