@@ -48,9 +48,10 @@ export const PeticionApi = () => {
                 <button onClick={handleNextPageClick}>Next page</button>
             <div className="card">
                 <ul style={{listStyleType: 'none'}}>
-                    {data.items.map(({id, name, photo}) => (
+                    {data.items.map(({id, name, charName, photo}) => (
                         <li key={id}>
                             <h4>{name}</h4>
+                            <p>Character name: {charName}</p>
                             <img height="250px" src={photo} alt={`${id}pic`} />
                         </li>
                     ))}
