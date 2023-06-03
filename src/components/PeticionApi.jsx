@@ -16,7 +16,7 @@ export const PeticionApi = () => {
                 });
                 if (response.ok) {
                     const jsonData = await response.json();
-                    setData(jsonData);
+                    setData(jsonData.items);
                 } else {
                     setError('Error al obtener los datos');
                 }
@@ -31,7 +31,7 @@ export const PeticionApi = () => {
 
     if (loading) return <p>Loading data...</p>
     if (error) return <p>{error}</p>
-
+    console.log(data)
     return (
         <>
             <h1>Peticion API React</h1>
@@ -39,6 +39,11 @@ export const PeticionApi = () => {
                 Click the button to fetch the endpoint data
             </p>
             <div className="card">
+                <ul>
+                    {data.map((item) => (
+                        <li key={item.id}>{item.name}</li>
+                    ))}
+                </ul>
                 {/* <button onClick={fetchData}>Fetch data</button> */}
             </div>
         </>
