@@ -1,28 +1,36 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../App.css'
 
 export const PeticionApi = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
 
-    const fetchData = async() => {
-        try {
-            const response = await fetch(`https://futdb.app/api/clubs?page=${pageNumber}`, { 
-                method: 'GET', 
-                headers: { 'X-Auth-Token': 'a57318c0-467b-4c2e-b761-24d8b1347ddb' }
-            });
-
-            if (response.status == 200) {
-                const json = await response.json();
-                const data = await json.items;
-                setData(data)
-            } else {
-                console.log('Error al obtener datos')
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`https://futdb.app/api/clubs?page=${pageNumber}`, { 
+                    method: 'GET', 
+                    headers: { 'X-Auth-Token': 'a57318c0-467b-4c2e-b761-24d8b1347ddb' }
+                });
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    setData(jsonData);
+                } else {
+                    setError('Error al obtener los datos');
+                }
+            } catch (error) {
+                setError('Error al obtener los datos: ' + error.message);
+            } finally {
+                setLoading(false);
             }
-        } catch(e) {
-            console.log(e)
-        }
-    }
+        };
+        fetchData();
+    }, []);
+
+    if (loading) return <p>Loading data...</p>
+    if (error) return <p>{error}</p>
 
     return (
         <>
@@ -31,7 +39,7 @@ export const PeticionApi = () => {
                 Click the button to fetch the endpoint data
             </p>
             <div className="card">
-                <button onClick={fetchData}>Fetch data</button>
+                {/* <button onClick={fetchData}>Fetch data</button> */}
             </div>
         </>
     )
